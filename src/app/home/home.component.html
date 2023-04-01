@@ -4,23 +4,27 @@
       <ion-title> Social App </ion-title>
       <div class="bar-btns-div">
         <ion-col class="feed-btn" id="noti-btn"
-          ><ion-button id="click-trigger" class="circle" fill="clear"
+          ><ion-button
+            (click)="clearNotification()"
+            id="click-trigger"
+            class="circle"
+            fill="clear"
             ><ion-icon
               name="notifications-outline"
               size="large"
             ></ion-icon></ion-button
-          ><ion-badge class="notification-badge" color="danger">0</ion-badge>
+          ><ion-badge class="notification-badge" color="danger">{{
+            this.count
+          }}</ion-badge>
           <ion-popover
             trigger="click-trigger"
             triggerAction="click"
             [dismissOnSelect]="true"
           >
             <ng-template>
-              <ion-content>
-                <ion-list>
-                  <ion-item>Notification 1</ion-item>
-                  <ion-item>Notification 2</ion-item>
-                  <ion-item>Notification 3</ion-item>
+              <ion-content class="notification-list">
+                <ion-list *ngFor="let n of notifArr">
+                  <ion-item>{{ n["title"] }}</ion-item>
                 </ion-list>
               </ion-content>
             </ng-template>
@@ -42,12 +46,15 @@
     </ion-card-header>
 
     <ion-card-content>
-      <ion-textarea placeholder="Write anything ..."></ion-textarea>
+      <ion-textarea
+        placeholder="Write anything ..."
+        [(ngModel)]="postContent"
+      ></ion-textarea>
     </ion-card-content>
 
-    <ion-button fill="clear">Post</ion-button>
+    <ion-button fill="clear" (click)="post()">Post</ion-button>
   </ion-card>
-  <ion-card #postsCard>
+  <ion-card>
     <ion-card-header>
       <ion-card-title>New Feeds</ion-card-title>
       <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
@@ -58,51 +65,60 @@
           <ion-item>
             <ion-thumbnail slot="start">
               <img
+                class="post-image"
                 alt="Silhouette of mountains"
                 src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
               />
             </ion-thumbnail>
             <ion-label>User</ion-label>
           </ion-item>
-          <ion-card-content> {{ p.post }} </ion-card-content>
-          <ion-grid>
+          <ion-card-content> {{ p["post"] }} </ion-card-content>
+          <ion-grid class="feed-btns-container">
             <ion-row>
               <ion-col class="feed-btn"
-                ><ion-button
-                  (click)="likePost(p.id)"
-                  class="circle"
-                  fill="clear"
+                ><ion-button (click)="likePost(p)" class="circle" fill="clear"
                   ><ion-icon
+                    *ngIf="!p['liked']"
                     name="thumbs-up-outline"
-                    size="large"
+                    size="small"
+                  ></ion-icon>
+                  <ion-icon
+                    *ngIf="p['liked']"
+                    name="thumbs-up"
+                    size="small"
                   ></ion-icon></ion-button
               ></ion-col>
               <ion-col class="feed-btn"
-                ><ion-button
-                  (click)="commentPost(p.id)"
-                  class="circle"
-                  fill="clear"
-                  ><ion-icon
-                    name="chatbox-ellipses-outline"
-                    size="large"
-                  ></ion-icon></ion-button
-              ></ion-col>
-              <ion-col class="feed-btn"
-                ><ion-button
-                  (click)="editPost(p.id)"
-                  class="circle"
-                  fill="clear"
+                ><ion-button (click)="editPost(p)" class="circle" fill="clear"
                   ><ion-icon
                     name="create-outline"
-                    size="large"
+                    size="small"
                   ></ion-icon></ion-button
               ></ion-col>
             </ion-row>
           </ion-grid>
         </ion-list>
         <ion-card-content>
-          <ion-label>Comment</ion-label>
-          <ion-textarea placeholder="Write comment ..."></ion-textarea>
+          <div class="comment-container">
+            <div class="comment-input">
+              <ion-label>Comment</ion-label>
+              <ion-textarea
+                placeholder="Write comment ..."
+                #commentInput
+              ></ion-textarea>
+            </div>
+            <ion-button
+              (click)="commentPost(p, commentInput.value)"
+              class="circle"
+              fill="clear"
+              ><ion-icon name="chatbox-ellipses-outline" size="small"></ion-icon
+            ></ion-button>
+          </div>
+          <ion-list [inset]="true">
+            <ion-item *ngFor="let c of p['comments']; let i = index">
+              <ion-label>{{ c }}</ion-label>
+            </ion-item>
+          </ion-list>
         </ion-card-content>
       </ion-card-content>
     </ng-container>

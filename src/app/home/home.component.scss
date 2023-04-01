@@ -42,8 +42,6 @@
   position: relative;
 }
 
-
-
 .notification-badge{
   position: absolute;
   display: flex;
@@ -54,14 +52,16 @@
   border-radius: 50%;
   width: 15px;
   height: 15px;
-  // top: 1px;
-  // right: 1px;
 }
 
 .bar-btns-div{
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.notification-list{
+  overflow-y: scroll;
 }
 
 .post-input-box{
@@ -75,12 +75,31 @@
   margin-right: 20px;
 }
 
+.post-image{
+  border-radius: 50%;
+}
+
+.feed-btns-container{
+  margin-top: 20px;
+}
+
+.feed-btns-container .feed-btn{
+  border: 1px solid #ccc;
+}
+
 .feed-btn{
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 
 .card-container{
-  border-bottom: 1px solid #ccc;
+  border-bottom: 2px solid #ccc;
 }
+
+.comment-container{
+  display: flex;
+  justify-content: space-between;
+}
+
