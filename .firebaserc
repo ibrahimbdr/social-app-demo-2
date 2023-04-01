@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "social-app-demo-5b2e7": {
+      "hosting": {
+        "social-app-demo-2": [
+          "social-app-demo-5b2e7"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "social-app-demo-5b2e7"
+  }
+}
